@@ -1,10 +1,11 @@
 const fs = require('fs');
+const path = require('path');
 
-fs.readFile('./01-read-file/text.txt', 'utf-8', (error, data) => {
-  if (error) {
-    console.error(error)
-    return
-  }
-  console.log(data)
+const PATH = path.join('01-read-file', 'text.txt');
+const stream = fs.createReadStream(PATH, {
+  encoding: 'utf-8',
 });
 
+stream.on('data', (data) => {
+  console.log(data);
+});
