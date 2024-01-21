@@ -1,8 +1,22 @@
-const fs = require('fs')
+const fs = require('fs');
+const path = require('path');
 
-fs.readdir('./03-files-in-folder/secret-folder', {withFileTypes: true}, (err, files) => {
-  if (err) throw err
-  files.forEach((file) => console.log(file.name))
-})
+const PATH = path.join('03-files-in-folder', 'secret-folder');
 
-// fs.readdir( path, options, callback )
+fs.readdir(PATH, { withFileTypes: true }, (err, files) => {
+  if (err) throw err;
+  files.forEach((file) => {
+    fs.stat(path.join(`${file.path}`, `${file.name}`), (err, stat) => {
+      if (err) throw err;
+      if (file.isDirectory()) {
+        console.log(`${file.name} -  ${stat.size} bytes`);
+      } else {
+        console.log(
+          `${file.name.replace(/\.[^/.]+$/, '')} - ${path.extname(
+            `${file.name}`,
+          )} - ${stat.size} bytes`,
+        );
+      }
+    });
+  });
+});
