@@ -8,7 +8,7 @@ const PATH = path.join('02-write-file', 'greeting.txt');
 let rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
-    prompt: 'What is your name? '
+    prompt: 'Hello! Write some text! '
 });
 
 
