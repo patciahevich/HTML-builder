@@ -9,7 +9,7 @@ const DEST = path.join('04-copy-directory', 'files-copy');
 
   const oldFiles = await fs.promises.readdir(dest);
   for (let file of oldFiles) {
-    await fs.promises.unlink(path.join(dest, file))
+    await fs.promises.unlink(path.join(dest, file));
   }
 
   const assets = await fs.promises.readdir(src);

@@ -2,23 +2,16 @@ const fs = require('fs');
 const path = require('path');
 
 const BUNDLE = path.join('05-merge-styles', 'project-dist', 'bundle.css');
+const SRC = path.join('05-merge-styles', 'styles');
 
-fs.open(BUNDLE, 'w', (err) => {
-  if (err) throw err;
+(async function mergeStyles(src, dest) {
+  const writeStylesCss = fs.createWriteStream(dest);
+  const styles = await fs.promises.readdir(src);
 
-  fs.readdir(
-    path.join('05-merge-styles', 'styles'),
-    { withFileTypes: true },
-    (err, files) => {
-      if (err) throw err;
-      files.forEach((file) => {
-        if (path.extname(path.join(file.path, file.name)) === '.css') {
-          fs.readFile(path.join(file.path, file.name), 'utf-8', (err, data) => {
-            if (err) throw err;
-            fs.appendFile(BUNDLE, data, () => {});
-          });
-        }
-      });
-    },
-  );
-});
+  for (let style of styles) {
+    if (path.extname(style) === '.css') {
+      const readStyle = await fs.createReadStream(path.join(src, style));
+      await readStyle.pipe(writeStylesCss);
+    }
+  }
+})(SRC, BUNDLE);
