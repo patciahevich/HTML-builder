@@ -11,19 +11,17 @@ const SRC = path.join('06-build-page', 'assets');
 const DEST = path.join('06-build-page', 'project-dist', 'assets');
 
 async function copyDirectory(src, dest) {
-  
   await fs.promises.mkdir(dest, { recursive: true });
   const assets = await fs.promises.readdir(src);
   for (let asset of assets) {
-    let stat = await fs.promises.stat(path.join(src, asset))
+    let stat = await fs.promises.stat(path.join(src, asset));
     if (stat.isDirectory()) {
-      await copyDirectory(path.join(src, asset), path.join(dest, asset))
+      await copyDirectory(path.join(src, asset), path.join(dest, asset));
     } else {
       await fs.promises.copyFile(path.join(src, asset), path.join(dest, asset));
     }
   }
 }
-
 
 async function readDir(dirPath) {
   return await fs.promises.readdir(dirPath);
@@ -34,7 +32,7 @@ async function readFile(filePath) {
 }
 
 (async () => {
-  await copyDirectory(SRC, DEST)
+  await copyDirectory(SRC, DEST);
   const dict = {};
 
   const files = await readDir(COMPONENT);
