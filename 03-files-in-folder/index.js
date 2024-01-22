@@ -8,9 +8,7 @@ fs.readdir(PATH, { withFileTypes: true }, (err, files) => {
   files.forEach((file) => {
     fs.stat(path.join(`${file.path}`, `${file.name}`), (err, stat) => {
       if (err) throw err;
-      if (file.isDirectory()) {
-        console.log(`${file.name} -  ${stat.size} bytes`);
-      } else {
+      if (!file.isDirectory()) {
         console.log(
           `${file.name.replace(/\.[^/.]+$/, '')} - ${path.extname(
             `${file.name}`,
