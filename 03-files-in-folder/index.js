@@ -3,15 +3,15 @@ const path = require('path');
 
 const PATH = path.join('03-files-in-folder', 'secret-folder');
 
-fs.readdir(PATH, { withFileTypes: true }, (err, files) => {
+fs.readdir(PATH, (err, files) => {
   if (err) throw err;
   files.forEach((file) => {
-    fs.stat(path.join(`${file.path}`, `${file.name}`), (err, stat) => {
+    fs.stat(path.join(PATH, file), (err, stat) => {
       if (err) throw err;
-      if (!file.isDirectory()) {
+      if (!stat.isDirectory()) {
         console.log(
-          `${file.name.replace(/\.[^/.]+$/, '')} - ${path.extname(
-            `${file.name}`,
+          `${file.replace(/\.[^/.]+$/, '')} - ${path.extname(
+            `${file}`,
           )} - ${stat.size} bytes`,
         );
       }
